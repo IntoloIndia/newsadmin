@@ -1,25 +1,24 @@
-import logo from './logo.svg';
-import './App.css';
-
+import { BrowserRouter,Redirect,useHistory } from "react-router-dom";
+import "./App.css";
+import HeaderComponent from "./Components/Header/HeaderComponent";
+import FooterComponent from "./Components/FooterComponent";
+import SignInOutContainer from "./SignInOutContainer";
+import { useState } from "react";
 function App() {
+  const history =useHistory()
+  const [loginStatus, setLoginStatus] = useState(true)
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload first changes
-          .
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>  
+    <BrowserRouter>
+  {
+   loginStatus ?
+    <SignInOutContainer setLoginStatus={setLoginStatus} />
+   :
+    <><HeaderComponent setLoginStatus={setLoginStatus}/><FooterComponent /></>
+  }
+    </BrowserRouter> 
+    </>
   );
 }
 
