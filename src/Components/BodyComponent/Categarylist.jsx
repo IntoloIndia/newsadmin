@@ -17,6 +17,9 @@ import {
   InputLabel,
   FormControlLabel,
   Checkbox,
+  Card,
+  CardActions,
+  CardHeader,
 } from "@material-ui/core";
 import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
@@ -25,152 +28,164 @@ import Dialog from "@material-ui/core/Dialog";
 import MuiDialogTitle from "@material-ui/core/DialogTitle";
 import MuiDialogContent from "@material-ui/core/DialogContent";
 import MuiDialogActions from "@material-ui/core/DialogActions";
-
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { PageHeader } from "../Common/CommonComponent";
 import { useStyles } from "./BodyStyles";
 import Categarypopup from "./Categarypopup";
+import DeleteIcon from "@material-ui/icons/Delete";
+import EditIcon from "@material-ui/icons/Edit";
 import {
   categoryGet,
   categoryDelete,
   createCategorypost,
   categoryGetParentData,
+  updateCategory,
 } from "../../Controller/CategoryController";
 import { countryGet } from "../../Controller/CountryController";
-// import { DataGrid } from '@mui/x-data-grid';
+import { textAlign } from "@mui/system";
+import { CardContent } from "@mui/material";
+import { subcategoryGet, subcreateCategorypost } from "../../Controller/SubCategoryController";
 
-const styles = (theme) => ({
+const StyledTableCell = withStyles((theme) => ({
+  head: {
+    backgroundColor: theme.palette.common.black,
+    color: theme.palette.common.white,
+  },
+  body: {
+    fontSize: 14,
+  },
+}))(TableCell);
+
+const StyledTableRow = withStyles((theme) => ({
   root: {
-    margin: 0,
-    padding: theme.spacing(2),
+    "&:nth-of-type(odd)": {
+      backgroundColor: theme.palette.action.hover,
+    },
   },
-  closeButton: {
-    position: "absolute",
-    right: theme.spacing(1),
-    top: theme.spacing(1),
-    color: theme.palette.grey[500],
-  },
-});
+}))(TableRow);
 
-const DialogTitle = withStyles(styles)((props) => {
-  const { children, classes, onClose, ...other } = props;
-  return (
-    <MuiDialogTitle disableTypography className={classes.root} {...other}>
-      <Typography variant="h6">{children}</Typography>
-      {onClose ? (
-        <IconButton
-          aria-label="close"
-          className={classes.closeButton}
-          onClick={onClose}
-        >
-          <CloseIcon />
-        </IconButton>
-      ) : null}
-    </MuiDialogTitle>
-  );
-});
-
-const DialogContent = withStyles((theme) => ({
-  root: {
-    padding: theme.spacing(2),
-  },
-}))(MuiDialogContent);
-
-const DialogActions = withStyles((theme) => ({
-  root: {
-    margin: 0,
-    padding: theme.spacing(1),
-  },
-}))(MuiDialogActions);
+// const styles = (theme) => ({
+//   root: {
+//     margin: 0,
+//     padding: theme.spacing(2),
+//   },
+//   closeButton: {
+//     position: "absolute",
+//     right: theme.spacing(1),
+//     top: theme.spacing(1),
+//     color: theme.palette.grey[500],
+//   },
+// });
 
 const Categarylist = () => {
-  // const [open, setOpen] = useState(false);
-  const [categary, setCategary] = useState("");
+  // get data state
   const [categorydata, setCategoryData] = useState([]);
+  const [category_name, setCategoryName] = useState("");
+  const [slugName, setSlugName] = useState("");
+  const [updatemodal, setUpdateModal] = useState(false);
   const [category_id, setCategory_Id] = useState("");
 
-
-  const [category_name, setCategoryName] = useState("");
-  const [slug_name, setSlugName] = useState("");
-  const [parentName, setParentName] = useState(null)
-  const [parentData, setParentData] = useState([])
-  const [open, setOpen] = useState(false);
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  const handleOpen = () => {
-    setOpen(true);
-  };
+  const [category, setCategory] = useState('')
+  const [subCategory, setSubCategory] = useState([])
+  const [subCategoryName, setSubCategoryName] = useState('')
+  const [subCategorySlugName, setSubCategorySlugName] = useState('')
 
   const classes = useStyles();
 
-  // const handleClickOpen = () => {
-  //   setOpen(true);
-  // };
-  // const handleClose = () => {
-  //   setOpen(false);
-  // };
-
-  const categaory = async () => {
+  const categaories = async () => {
     let data = await categoryGet();
     // console.log(data)
     setCategoryData(data.data);
   };
-  
-  
-  const categaoryParentData = async () => {
-    let data = await categoryGetParentData();
-    // console.log(data)
-    setParentData(data.data);
-
-  };
-  
-  useEffect(() => {
-    categaory();
-  }, []);
 
   useEffect(() => {
-    categaoryParentData();
+    categaories();
   }, []);
 
   const deleteCategory = async (id) => {
-    // let data = await categoryDelete(id);
-    // alert("This category delete ");
-    // categaory();
+    let data = await categoryDelete(id);
+    alert("This category delete ");
+    categaories();
   };
 
-  const update = (id, name) => {
-    setOpen(true);
+  const update = (id, name, sname) => {
     setCategory_Id(id);
-    setCategary(name);
+    setCategoryName(name);
+    setSlugName(sname);
+    setUpdateModal(true);
   };
-  console.log(categary, category_id);
+  console.log(category_name, category_id);
 
-  const categaryUpdate = () => {
-    alert("update");
+  const categaryUpdate = async () => {
+    const updaetData = {
+      category_name: category_name,
+      slug: slugName,
+    };
+    //  alert(JSON.stringify(updaetData))
+    let data = await updateCategory(category_id, updaetData);
+    if (data.status === 200) {
+      alert("category update");
+      setCategoryName("");
+      setSlugName("");
+      categaories();
+      setUpdateModal(false);
+    } else {
+      alert("category not update");
+    }
   };
 
   const saveData = async () => {
     const categoryData = {
-     category_name:category_name,
-     slug_name:slug_name,
-     parent_id:parentName,
+      category_name: category_name,
+      slug: slugName,
+    };
+    // alert(JSON.stringify(categoryData))
+    let data = await createCategorypost(categoryData);
+    if (data.status === 200) {
+      alert("save category");
+      setCategoryName("");
+      setSlugName("");
+      categaories();
+    } else {
+      alert("data not save");
+    }
   };
-  alert(JSON.stringify(categoryData))
-  let data = await createCategorypost(categoryData)
-  if(data.status===200){
-    alert("save category");
-    setCategoryName('');
-    setSlugName('');
-    setParentName('');
-    categaory();
-  }else{
-    alert("data not save")
+
+
+  // subcategory api 
+
+  const saveSubCategory = async ()=>{
+    const subcategroydata ={
+      category_id:category,
+      sub_category_name:subCategoryName,
+      sub_category_slug_name:subCategorySlugName,
+    }
+    alert(JSON.stringify(subcategroydata))
+    let data = await subcreateCategorypost(subcategroydata);
+      if(data.status===200){
+      alert("subcategory save")
+      setCategory('')
+      setSubCategoryName('')
+      setSubCategorySlugName('')
+      subCategory();
+      
+    }else{
+      alert("subcategory not save")
+    }
   }
-}
+
+  const subcategories = async ()=>{
+    let data = await subcategoryGet();
+    if(data.status===200){
+      console.log(data);
+      setSubCategory(data.data)
+    }
+  }
+
+  useEffect(()=>{
+    subcategories()
+  },[])
 
   var sno = 0;
   return (
@@ -178,141 +193,238 @@ const Categarylist = () => {
       <Box>
         <div className={classes.boxcantainer}>
           <PageHeader label="Categarylist" />
-          <Categarypopup />
+          {/* <Categarypopup /> */}
         </div>
-        <Box style={{ marginTop: 5 }}>
+        <Box>
           <Grid container spacing={2}>
-            <Grid item xs={12} lg={5}>
-              <Paper elevation={10}>
-                <Typography>Category</Typography>
-                <Box style={{ margin: 20 }}>
+            <Grid item xs={12} lg={3}>
+              <Card>
+                <CardContent>
+                  <Typography variant="h6" style={{ marginBottom: 10 }}>
+                    Category
+                  </Typography>
                   <TextField
                     variant="outlined"
-                    label="Categoryname"
+                    // label="Categoryname"
                     size="small"
                     fullWidth
                     style={{ marginBottom: 10 }}
+                    value={updatemodal ? category_name : null}
                     onChange={(e) => setCategoryName(e.target.value)}
                   />
                   <TextField
                     variant="outlined"
-                    label="slugname"
+                    // label="slugname"
                     size="small"
                     fullWidth
-                    style={{ marginBottom: 10 }}
+                    // style={{ marginBottom: 10 }}
+                    value={updatemodal ? slugName : null}
                     onChange={(e) => setSlugName(e.target.value)}
                   />
-                  <FormControl fullWidth variant="outlined" size="small">
-                    <InputLabel id="demo-controlled-open-select-label">
-                      Select
-                    </InputLabel>
-                    <Select
-                      // labelId="demo-controlled-open-select-label"
-                      // id="demo-controlled-open-select"
-                    
-                      onChange={(e) => setParentName(e.target.value)}
-                      fullWidth
-                      variant="outlined"
-                      label="select"
-                      size="small"
-                      style={{ marginBottom: 10 }}
-                    >{
-                      categorydata.map((ele)=>(
-                      // console.log(ele)
-                        <MenuItem value={ele._id}>{ele.category_name}</MenuItem>
-                      ))
-                    }
-                    </Select>
-                  </FormControl>
-                  <Button
-                    variant="contained"
-                    color="secondary"
-                    style={{ marginBottom: 10 }}
-                    fullWidth
-                    onClick={() => saveData()}
-                  >
-                    Save
-                  </Button>
-                </Box>
-              </Paper>
+                </CardContent>
+                <CardActions>
+                  {!updatemodal ? (
+                    <Button
+                      variant="contained"
+                      color="secondary"
+                      onClick={() => saveData()}
+                    >
+                      Save
+                    </Button>
+                  ) : (
+                    <Button
+                      variant="contained"
+                      color="secondary"
+                      onClick={() => categaryUpdate()}
+                    >
+                      Update
+                    </Button>
+                  )}
+                </CardActions>
+              </Card>
             </Grid>
-            <Grid item xs={12} lg={7}>
-              <Box style={{ width: "100%", height: "100%", borderWidth: 2 }}>
-                <Paper elevation={10}>
-                  <Typography variant="h5">Category List</Typography>
+            <Grid item xs={12} lg={9}>
+              <TableContainer component={Paper}>
+                <Table className={classes.table} aria-label="customized table">
+                  <TableHead style={{ bachgroundcolor: "red" }}>
+                    <TableRow>
+                      <StyledTableCell align="center">S.No</StyledTableCell>
+                      <StyledTableCell align="center">Category</StyledTableCell>
+                      <StyledTableCell align="center">Slug</StyledTableCell>
+                      <StyledTableCell align="center">
+                        Posting Date
+                      </StyledTableCell>
+                      <StyledTableCell align="center">
+                        Last Updation Date
+                      </StyledTableCell>
+                      <StyledTableCell align="center">Edit</StyledTableCell>
+                      <StyledTableCell align="center">Delete</StyledTableCell>
+                    </TableRow>
+                  </TableHead>
 
-                  {/* <nav>
-                  <ul style={{listStyle:"none"}}>
-                    <li> <Checkbox />India 
-                  <ul style={{marginLeft:30,listStyle:"none"}}><li> <Checkbox />MadhyaPradesh 
-                    <ul style={{marginLeft:50,listStyle:"none"}}>
-                      <li> <Checkbox /> Indore</li>
-                      <li> <Checkbox /> Bhopal</li>
-                      <li> <Checkbox />Jabalpur</li>
-                    </ul>
-                    </li>
-                    </ul>
-                  </li>
-                  <ul style={{marginLeft:30,listStyle:"none"}}><li> <Checkbox />UtterPradesh 
-                    <ul style={{marginLeft:50,listStyle:"none"}}>
-                      <li> <Checkbox />Vihar</li>
-                     
-                    </ul>
-                    </li>
-                    </ul>
-                  
-                  </ul>
-                 
-                  </nav> */}
-                  {
-                    parentData.map((element,index)=>(
-                      <Box key={index}>
-                        <Typography key={index} >{++sno}{""+element.parent_id}</Typography>
-                      </Box>
-                    ))
-                  }
-                  
-                </Paper>
-              </Box>
+                  {categorydata.map((ele, index) => {
+                    return (
+                      <TableBody key={index}>
+                        <TableRow>
+                          <TableCell align="center">{++sno}</TableCell>
+                          <TableCell align="center">
+                            {ele.category_name}
+                          </TableCell>
+                          <TableCell align="center">{ele.slug}</TableCell>
+                          <TableCell align="center">Posting Date</TableCell>
+                          <TableCell align="center">
+                            Last updation Date
+                          </TableCell>
+                          <TableCell align="center">
+                            <IconButton
+                              variant="contained"
+                              color="primary"
+                              size="small"
+                            >
+                              <EditIcon
+                                onClick={() =>
+                                  update(ele._id, ele.category_name, ele.slug)
+                                }
+                              />
+                            </IconButton>
+                          </TableCell>
+                          <TableCell align="center">
+                            <IconButton
+                              variant="contained"
+                              color="secondary"
+                              size="small"
+                            >
+                              <DeleteIcon
+                                onClick={() => deleteCategory(ele._id)}
+                              />
+                            </IconButton>
+                          </TableCell>
+                        </TableRow>
+                      </TableBody>
+                    );
+                  })}
+                </Table>
+              </TableContainer>
             </Grid>
           </Grid>
         </Box>
-        <div>
-          {/* <Button onClick={handleClickOpen} variant='outlined'>
-        AddCategary
-      </Button> */}
-          {/* <Dialog open={open}>
-            <DialogTitle id="customized-dialog-title" onClose={handleClose}>
-              UpdateCateagry
-            </DialogTitle>
-            <DialogContent dividers>
-              <form>
-                <Box>
+        <Box style={{ marginTop: 5 }}>
+          <Grid container spacing={2}>
+            <Grid item xs={12} lg={3}>
+              <Card>
+                <CardContent>
+                  <Typography variant="h6" style={{ marginBottom: 10 }}>
+                    SubCategory
+                  </Typography>
+                  <FormControl fullWidth variant="outlined" size="small">
+                    <InputLabel id="demo-controlled-open-select-label">
+                      category
+                    </InputLabel>
+                    <Select
+                      fullWidth
+                      label="category"
+                      style={{ marginBottom: 10 }}
+                      onChange={(e) => setCategory(e.target.value)}
+                    >
+                      {categorydata.map((data, index) => (
+                        <MenuItem value={data._id}>
+                          {data.category_name}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
                   <TextField
-                    placeholder="Categary name"
-                    id="outlined-basic"
-                    label="Categarynames"
                     variant="outlined"
+                    label="subcategoryname"
                     size="small"
-                    value={categaory}
-                    onChange={(e) => setCategary(e.target.value)}
                     fullWidth
+                    style={{ marginBottom: 10 }}
+                    onChange={(e) => setSubCategoryName(e.target.value)}
                   />
-                </Box>
-              </form>
-            </DialogContent>
-            <DialogActions>
-              <Button
-                type="submit"
-                variant="contained"
-                color="secondary"
-                onClick={() => categaryUpdate()}
-              >
-                update
-              </Button>
-            </DialogActions>
-          </Dialog> */}
-        </div>
+                  <TextField
+                    variant="outlined"
+                    label="slug"
+                    size="small"
+                    fullWidth
+                    onChange={(e) => setSubCategorySlugName(e.target.value)}
+                  />
+                </CardContent>
+                <CardActions>
+                  <Button
+                    variant="contained"
+                    color="secondary"
+                    onClick={() =>saveSubCategory("save")}
+                  >
+                    Save
+                  </Button>
+                </CardActions>
+              </Card>
+            </Grid>
+            <Grid item xs={12} lg={9}>
+            <TableContainer component={Paper}>
+                <Table className={classes.table} aria-label="customized table">
+                  <TableHead style={{ bachgroundcolor: "red" }}>
+                    <TableRow>
+                      <StyledTableCell align="center">S.No</StyledTableCell>
+                      <StyledTableCell align="center">Category</StyledTableCell>
+                      <StyledTableCell align="center">Slug</StyledTableCell>
+                      <StyledTableCell align="center">
+                        Posting Date
+                      </StyledTableCell>
+                      <StyledTableCell align="center">
+                        Last Updation Date
+                      </StyledTableCell>
+                      <StyledTableCell align="center">Edit</StyledTableCell>
+                      <StyledTableCell align="center">Delete</StyledTableCell>
+                    </TableRow>
+                  </TableHead>
+
+                  {subCategory.map((ele, index) => {
+                    return (
+                      <TableBody key={index}>
+                        <TableRow>
+                          <TableCell align="center">{++sno}</TableCell>
+                          <TableCell align="center">
+                            {ele.category_name}
+                          </TableCell>
+                          <TableCell align="center">{ele.slug}</TableCell>
+                          <TableCell align="center">Posting Date</TableCell>
+                          <TableCell align="center">
+                            Last updation Date
+                          </TableCell>
+                          <TableCell align="center">
+                            <IconButton
+                              variant="contained"
+                              color="primary"
+                              size="small"
+                            >
+                              <EditIcon
+                                onClick={() =>
+                                  update(ele._id, ele.category_name, ele.slug)
+                                }
+                              />
+                            </IconButton>
+                          </TableCell>
+                          <TableCell align="center">
+                            <IconButton
+                              variant="contained"
+                              color="secondary"
+                              size="small"
+                            >
+                              <DeleteIcon
+                                onClick={() => deleteCategory(ele._id)}
+                              />
+                            </IconButton>
+                          </TableCell>
+                        </TableRow>
+                      </TableBody>
+                    );
+                  })}
+                </Table>
+              </TableContainer>
+            </Grid>
+          </Grid>
+        </Box>
       </Box>
     </>
   );

@@ -16,6 +16,7 @@ import { NavLink } from "react-router-dom";
 import { useStyles } from "./HeaderStyles";
 import Categarylist from "../BodyComponent/Categarylist";
 import FormatListBulletedIcon from '@material-ui/icons/FormatListBulleted';
+import CategoryIcon from '@material-ui/icons/Category';
 import LocationCityIcon from '@material-ui/icons/LocationCity';
 import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
 
@@ -27,7 +28,10 @@ export default function SidenavData({ handleDrawerClose }) {
 
     // { label: "Dashobard", link: "/", icon: <DashboardIcon /> },
 
-    { label: "Category", link: "/categarylist", icon: <FormatListBulletedIcon /> },
+    { label: "Category", link: "/categarylist", icon: <CategoryIcon /> },
+
+    // { label: "subCategory", link: "/subCategory", icon: <FormatListBulletedIcon /> },
+   
 
     // { label: "NewsEditer", link: "/newsediter", icon: <AssignmentIcon /> },
     { label: "State", link: "/state", icon: <LocationCityIcon /> },
