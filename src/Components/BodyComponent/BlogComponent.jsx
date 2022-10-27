@@ -76,7 +76,9 @@ export default function BlogComponent() {
                   return (
                     <TableBody key={index}>
                       <TableRow>
-                        <TableCell align="center">{++sno}</TableCell>
+                        <TableCell align="center">{++sno}
+                        
+                        </TableCell>
                         <TableCell align="center">{ele.blog_title}</TableCell>
                         <TableCell align="center">{ele.blog_subTitle}</TableCell>
                         <TableCell align="center"><Avatar src=''/>{ele.blog_image}</TableCell>

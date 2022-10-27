@@ -205,7 +205,7 @@ const Categarylist = () => {
                   </Typography>
                   <TextField
                     variant="outlined"
-                    // label="Categoryname"
+                    label="Category_name"
                     size="small"
                     fullWidth
                     style={{ marginBottom: 10 }}
@@ -214,7 +214,7 @@ const Categarylist = () => {
                   />
                   <TextField
                     variant="outlined"
-                    // label="slugname"
+                    label="Slug_name"
                     size="small"
                     fullWidth
                     // style={{ marginBottom: 10 }}
@@ -318,11 +318,11 @@ const Categarylist = () => {
                   </Typography>
                   <FormControl fullWidth variant="outlined" size="small">
                     <InputLabel id="demo-controlled-open-select-label">
-                      category
+                      Category
                     </InputLabel>
                     <Select
                       fullWidth
-                      label="category"
+                      label="Category"
                       style={{ marginBottom: 10 }}
                       onChange={(e) => setCategory(e.target.value)}
                     >
@@ -335,7 +335,7 @@ const Categarylist = () => {
                   </FormControl>
                   <TextField
                     variant="outlined"
-                    label="subcategoryname"
+                    label="Subcategory_name"
                     size="small"
                     fullWidth
                     style={{ marginBottom: 10 }}
@@ -343,7 +343,7 @@ const Categarylist = () => {
                   />
                   <TextField
                     variant="outlined"
-                    label="slug"
+                    label="Slug"
                     size="small"
                     fullWidth
                     onChange={(e) => setSubCategorySlugName(e.target.value)}
@@ -360,9 +360,36 @@ const Categarylist = () => {
                 </CardActions>
               </Card>
             </Grid>
-            <Grid item xs={12} lg={9}>
-            <TableContainer component={Paper}>
-                <Table className={classes.table} aria-label="customized table">
+           
+              <Grid item xs={12} lg={9}>
+               <Card>
+                <CardContent>
+                  <Grid container spacing={2}>
+                    <Grid item xs={12} lg={3}>
+                    <Typography variant="h6" style={{ marginBottom: 10 }}>
+                    Sub categaories
+                  </Typography>
+                  <FormControl fullWidth variant="outlined" size="small">
+                    <InputLabel id="demo-controlled-open-select-label">
+                        Select category
+                    </InputLabel>
+                    <Select
+                      fullWidth
+                      label=" Select category"
+                      style={{ marginBottom: 10 }}
+                      onChange={(e) => setCategory(e.target.value)}
+                    >
+                      {categorydata.map((data, index) => (
+                        <MenuItem value={data._id}>
+                          {data.category_name}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                    </Grid>
+                    <Grid item xs={12} lg={9}>
+                          <TableContainer component={Paper}>
+                <Table className={classes.table} aria-label="customized table" size="small">
                   <TableHead style={{ bachgroundcolor: "red" }}>
                     <TableRow>
                       <StyledTableCell align="center">S.No</StyledTableCell>
@@ -422,6 +449,11 @@ const Categarylist = () => {
                   })}
                 </Table>
               </TableContainer>
+                    </Grid>
+                  </Grid>
+                 
+                </CardContent>
+              </Card>
             </Grid>
           </Grid>
         </Box>
