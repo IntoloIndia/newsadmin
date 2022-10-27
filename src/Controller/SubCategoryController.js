@@ -1,8 +1,8 @@
 
 
-const categoryGet = async ()=>{
+const subcategoryGet = async ()=>{
     try {
-        const res = await fetch(`${process.env.REACT_APP_API_URL}category`, {
+        const res = await fetch(`${process.env.REACT_APP_API_URL}sub-category`, {
           method: 'get',
           headers: {
             'content-Type': 'application/json',
@@ -15,29 +15,14 @@ const categoryGet = async ()=>{
       }
  };
 
-//  const categoryGetParentData = async ()=>{
-//   try {
-//       const res = await fetch(`${process.env.REACT_APP_API_URL}categoryCountry`, {
-//         method: 'get',
-//         headers: {
-//           'content-Type': 'application/json',
-//         },
-//       });
-//       const data = await res.json();
-//       return data;
-//     } catch (error) {
-//       console.log(error);
-//     }
-// };
-
-const createCategorypost = async (categoryData)=>{
+const subcreateCategorypost = async (subcategroydata)=>{
     try {
-        const res = await fetch(`${process.env.REACT_APP_API_URL}category`, {
+        const res = await fetch(`${process.env.REACT_APP_API_URL}sub-category`, {
           method: 'post',
           headers: {
             'content-Type': 'application/json',
           },
-          body: JSON.stringify(categoryData),
+          body: JSON.stringify(subcategroydata),
         });
         const data = await res.json();
         return data;
@@ -46,10 +31,10 @@ const createCategorypost = async (categoryData)=>{
       }
 };
 
-const categoryDelete = async id => {
+const subcategoryDelete = async id => {
     // console.log('object', id);
     try {
-      const res = await fetch(`${process.env.REACT_APP_API_URL}category/`+ id, {
+      const res = await fetch(`${process.env.REACT_APP_API_URL}sub-category/`+ id, {
         method: 'delete',
         headers: {
           'content-Type': 'application/json',
@@ -62,9 +47,9 @@ const categoryDelete = async id => {
     }
   };
 
-  const updateCategory = async (category_id,updaetData) => {
+  const subupdateCategory = async (category_id,updaetData) => {
     try {
-      const res = await fetch(`${process.env.REACT_APP_API_URL}category/`+ category_id, {
+      const res = await fetch(`${process.env.REACT_APP_API_URL}sub-category/`+ category_id, {
         method: 'put',
         headers: {
           'Content-Type': 'application/json',
@@ -79,7 +64,7 @@ const categoryDelete = async id => {
   };
 
 export {
-    categoryGet,createCategorypost,categoryDelete, updateCategory
+    subcategoryGet,subcreateCategorypost,subcategoryDelete, subupdateCategory
 }
 
 //categoryUpdate
