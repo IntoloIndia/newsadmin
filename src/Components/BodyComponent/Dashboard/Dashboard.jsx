@@ -117,7 +117,7 @@ export default function Dashboard() {
       section graph
       section posts */}
 
-      <PageHeader label='Dashboard' pageTitle='blog Overview' />
+      <PageHeader label='Dashboard'  />
       <Grid container spacing={1}>
         {DisplayData.map((item, i) => (
           <Grid item xs={6} sm={3} key={i}>

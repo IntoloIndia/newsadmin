@@ -34,38 +34,39 @@ const createBlogPost = async (data)=>{
       }
 };
 
-// const categoryDelete = async id => {
-//     // console.log('object', id);
-//     try {
-//       const res = await fetch("http://localhost:4500/api/category/"+ id, {
-//         method: 'delete',
-//         headers: {
-//           'Content-Type': 'application/json',
-//         },
-//       });
-//       const data = await res.json();
-//       return data;
-//     } catch (error) {
-//       console.log(error);
-//     }
-//   };
+const blogPostDelete = async id => {
+    // alert(id)
+    try {
+      const res = await fetch(`${process.env.REACT_APP_API_URL}blogs/`+ id, {
+        method: 'delete',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      const data = await res.json();
+      return data;
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
-//   const categoryUpdate = async (category_id, updateunitdata) => {
-//     try {
-//       const res = await fetch(url + category_id, {
-//         method: 'put',
-//         headers: {
-//           'Content-Type': 'application/json',
-//         },
-//         body: JSON.stringify(updateunitdata),
-//       });
-//       const data = await res.json();
-//       return data;
-//     } catch (error) {
-//       console.log(error);
-//     }
-//   };
+  const blogPostUpdate = async (blogPost_id, data) => {
+    alert(blogPost_id)
+    try {
+      const res = await fetch(`${process.env.REACT_APP_API_URL}blogs/`+ blogPost_id, {
+        method: 'put',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: data,
+      });
+      const data = await res.json();
+      return data;
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
-export {createBlogPost,blogGet}
+export {createBlogPost,blogGet,blogPostDelete,blogPostUpdate}
 
 //categoryUpdate

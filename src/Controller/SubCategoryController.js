@@ -1,8 +1,8 @@
 
-
-const subcategoryGet = async ()=>{
+const subcategoryGet = async (category_id)=>{
+ 
     try {
-        const res = await fetch(`${process.env.REACT_APP_API_URL}sub-category`, {
+        const res = await fetch(`${process.env.REACT_APP_API_URL}sub-category/`+ category_id, {
           method: 'get',
           headers: {
             'content-Type': 'application/json',
@@ -47,14 +47,14 @@ const subcategoryDelete = async id => {
     }
   };
 
-  const subupdateCategory = async (category_id,updaetData) => {
+  const subupdateCategory = async (subcategory_id, subcategoryupdaetData) => {
     try {
-      const res = await fetch(`${process.env.REACT_APP_API_URL}sub-category/`+ category_id, {
+      const res = await fetch(`${process.env.REACT_APP_API_URL}sub-category/`+ subcategory_id, {
         method: 'put',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(updaetData),
+        body: JSON.stringify(subcategoryupdaetData),
       });
       const data = await res.json();
       return data;

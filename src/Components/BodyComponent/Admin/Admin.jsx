@@ -29,6 +29,27 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import CloseIcon from "@material-ui/icons/Close";
 import EditIcon from "@material-ui/icons/Edit";
 import { createAdminPost, getRole, getAdmindata,updateAdmindata,deleteAdmindata } from "../../../Controller/AdminController";
+import { withStyles } from "@material-ui/core/styles";
+
+
+const StyledTableCell = withStyles((theme) => ({
+  head: {
+    backgroundColor: theme.palette.common.black,
+    color: theme.palette.common.white,
+  },
+  body: {
+    fontSize: 14,
+  },
+}))(TableCell);
+
+const StyledTableRow = withStyles((theme) => ({
+  root: {
+    "&:nth-of-type(odd)": {
+      backgroundColor: theme.palette.action.hover,
+    },
+  },
+}))(TableRow);
+
 
 const Admin = () => {
   const classes = useStyles();
@@ -243,29 +264,28 @@ const Admin = () => {
               <Box style={{ marginTop: 5 }}>
                 <Grid container>
                   <Grid item xs={12}>
-                    <TableContainer component={Paper}>
-                      <Table size="small">
-                        <TableHead>
+                  <TableContainer component={Paper} style={{maxHeight: 300,}}>
+                    <Table className={classes.table}  stickyHeader aria-label="sticky table" size="small">
+                        <TableHead style={{ bachgroundcolor: "red" }}>
                           <TableRow>
-                            <TableCell align="center">S.No</TableCell>
-                            <TableCell align="center">Role</TableCell>
-                            <TableCell align="center">Name</TableCell>
-                            <TableCell align="center">UserName</TableCell>
-                            <TableCell align="center">Password</TableCell>
-                            <TableCell align="center">Edit</TableCell>
-                            <TableCell align="center">Delete</TableCell>
+                            <StyledTableCell align="center">S.No</StyledTableCell>
+                            <StyledTableCell align="center">Role</StyledTableCell>
+                            <StyledTableCell align="center">Name</StyledTableCell>
+                            <StyledTableCell align="center">UserName</StyledTableCell>
+                            <StyledTableCell align="center">Password</StyledTableCell>
+                            <StyledTableCell align="center">Action</StyledTableCell>
                           </TableRow>
                         </TableHead>
                         <TableBody>
                           { admindata!= undefined ?
                             admindata.map((ele,index)=>(
-                              <TableRow key={index} >
-                              <TableCell align="center">{++sn}</TableCell>
-                              <TableCell align="center">{ele.role_id}</TableCell>
-                              <TableCell align="center">{ele.name}</TableCell>
-                              <TableCell align="center">{ele.user_name}</TableCell>
-                              <TableCell align="center">{ele.password}</TableCell>
-                              <TableCell align="center">
+                              <StyledTableRow key={index} >
+                              <StyledTableCell align="center">{++sn}</StyledTableCell>
+                              <StyledTableCell align="center">{ele.role}</StyledTableCell>
+                              <StyledTableCell align="center">{ele.name}</StyledTableCell>
+                              <StyledTableCell align="center">{ele.user_name}</StyledTableCell>
+                              <StyledTableCell align="center">{ele.password}</StyledTableCell>
+                              <StyledTableCell align="center">
                                 <IconButton
                                   variant="contained"
                                   color="primary"
@@ -273,8 +293,6 @@ const Admin = () => {
                                 >
                                  <EditIcon onClick={()=>{update(ele._id,ele.role_id,ele.name,ele.user_name,ele.password)}} />
                                 </IconButton>
-                              </TableCell>
-                              <TableCell align="center">
                                 <IconButton
                                   variant="contained"
                                   color="secondary"
@@ -282,8 +300,9 @@ const Admin = () => {
                                 >
                                  <DeleteIcon onClick={()=>deleteData(ele._id)} />
                                 </IconButton>
-                              </TableCell>
-                            </TableRow>
+                              </StyledTableCell>
+                             
+                            </StyledTableRow>
                             ))
                           :null}
                           

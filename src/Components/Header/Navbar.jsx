@@ -28,7 +28,7 @@ export default function Navbar({ handleDrawerOpen }) {
         </Typography>
         <Hidden smDown>
           <Box style={{ display: "flex" }}>
-            <BlogModal />
+            {/* <BlogModal /> */}
             <Addmoreitem />
             <Notification />
             <Messages />

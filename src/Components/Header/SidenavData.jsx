@@ -19,13 +19,13 @@ import FormatListBulletedIcon from '@material-ui/icons/FormatListBulleted';
 import CategoryIcon from '@material-ui/icons/Category';
 import LocationCityIcon from '@material-ui/icons/LocationCity';
 import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
-
+import NavigationIcon from '@material-ui/icons/Navigation';
 export default function SidenavData({ handleDrawerClose }) {
   const classes = useStyles();
   const listItemData = [
     { label: "Dashboard", link: "/Dashboard", icon: <DashboardIcon /> },
     { label: "admins", link: "/admins", icon: <SupervisorAccountIcon /> },
-
+    { label: "navigation", link: "/navigation", icon: <NavigationIcon /> },
     // { label: "Dashobard", link: "/", icon: <DashboardIcon /> },
 
     { label: "Category", link: "/categarylist", icon: <CategoryIcon /> },

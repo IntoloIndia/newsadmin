@@ -14,6 +14,7 @@ import { useStyles } from "./HeaderStyles";
 import StateCity from "../BodyComponent/StateCity";
 import SignInOutContainer from "../../SignInOutContainer";
 import Admin from "../BodyComponent/Admin/Admin";
+import Appnav from "../BodyComponent/navigationpage/Appnav";
 export default function HeaderComponent({setLoginStatus}) {
   const classes = useStyles();
 
@@ -42,6 +43,7 @@ export default function HeaderComponent({setLoginStatus}) {
           <Route exact path="/categarylist" render={() => <Categarylist />} />
           <Route exact path="/blog" render={() => <BlogComponent />} />
           <Route exact path="/admins" render={() => <Admin />} />
+          <Route exact path="/navigation" render={() => <Appnav />} />
           <Route exact path="/logout" render={() => <Logout setLoginStatus={setLoginStatus} />} />
           <Route path="/" render={() => <Redirect to="/" />} />
           {/* <Redirect to="/SignInOutContainer"/> */}
