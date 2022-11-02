@@ -24,7 +24,7 @@ export default function Navbar({ handleDrawerOpen }) {
     <AppBar position='fixed'className={classes.navbarapp} >
       <Toolbar className={classes.toolbar}>
         <Typography variant='h5' className={classes.logo}>
-         <Link to ='/' style={{color:"white",textDecoration:"none"}}>{"NEWS"}</Link>
+         <Link to ='/' style={{color:"white",textDecoration:"none",fontFamily:"monospace"}}>{"Yesh Bharat"}</Link>
         </Typography>
         <Hidden smDown>
           <Box style={{ display: "flex" }}>

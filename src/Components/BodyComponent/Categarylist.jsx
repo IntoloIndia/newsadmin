@@ -283,13 +283,13 @@ const Categarylist = () => {
                     <TableRow>
                       <StyledTableCell align="center">S.No</StyledTableCell>
                       <StyledTableCell align="center">Category</StyledTableCell>
-                      <StyledTableCell align="center">Slug</StyledTableCell>
-                      <StyledTableCell align="center">
+                      <StyledTableCell align="center">Slug name</StyledTableCell>
+                      {/* <StyledTableCell align="center">
                         Posting Date
                       </StyledTableCell>
                       <StyledTableCell align="center">
                         Last Updation Date
-                      </StyledTableCell>
+                      </StyledTableCell> */}
                       <StyledTableCell align="center">Action</StyledTableCell>
                     </TableRow>
                   </TableHead>
@@ -303,10 +303,10 @@ const Categarylist = () => {
                             {ele.category_name}
                           </TableCell>
                           <TableCell align="center">{ele.slug}</TableCell>
-                          <TableCell align="center">Posting Date</TableCell>
+                          {/* <TableCell align="center">Posting Date</TableCell>
                           <TableCell align="center">
                             Last updation Date
-                          </TableCell>
+                          </TableCell> */}
                           <TableCell align="center">
                             <IconButton
                               variant="contained"
@@ -418,7 +418,7 @@ const Categarylist = () => {
                       </Typography>
                       <FormControl fullWidth variant="outlined" size="small">
                         <InputLabel id="demo-controlled-open-select-label">
-                          Select category
+                          Select Category
                         </InputLabel>
                         <Select
                           fullWidth
@@ -451,10 +451,10 @@ const Categarylist = () => {
                                 S.No
                               </StyledTableCell>
                               <StyledTableCell align="center">
-                                sub category
+                                Sub category
                               </StyledTableCell>
                               <StyledTableCell align="center">
-                                Slug
+                                Slug name
                               </StyledTableCell>
                               <StyledTableCell align="center">
                                 Action

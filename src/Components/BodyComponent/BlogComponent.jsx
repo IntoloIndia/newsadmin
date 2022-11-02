@@ -18,6 +18,8 @@ import {
   InputLabel,
   FormControl,
   MenuItem,
+  Card,
+  CardMedia,
 } from "@material-ui/core";
 import { useStyles } from "./BodyStyles";
 import { PageHeader } from "../Common/CommonComponent";
@@ -39,8 +41,7 @@ import {
 import { categoryGet } from "../../Controller/CategoryController";
 import ReactReadMoreReadLess from "react-read-more-read-less";
 // import {photo} from '../../../public/logo.jpg.png'
-import { makeStyles } from '@material-ui/core/styles';
-
+import { makeStyles } from "@material-ui/core/styles";
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
@@ -62,7 +63,7 @@ const StyledTableRow = withStyles((theme) => ({
 
 // const useStyles = makeStyles((theme) => ({
 //   root: {
-//  
+//
 //   large: {
 //     width: theme.spacing(7),
 //     height: theme.spacing(7),
@@ -117,12 +118,12 @@ export default function BlogComponent() {
     postCategory();
   }, []);
 
-  const update = (id, title, subTitle, dsc,scid, bimage) => {
+  const update = (id, title, subTitle, dsc, scid, bimage) => {
     setBlogPost_Id(id);
     setBlog_Title(title);
     setBlog_Sub_Title(subTitle);
     setBlog_Discription(dsc);
-    setSelectCategory(scid)
+    setSelectCategory(scid);
     setPost_Image(bimage);
     setUpdateModal(true);
     setOpen(true);
@@ -173,7 +174,6 @@ export default function BlogComponent() {
     data.set("category_id", selectCategory);
 
     fetch(`${process.env.REACT_APP_API_URL}blogs/` + blogPost_id, {
-      
       method: "put",
       body: data,
     })
@@ -273,7 +273,11 @@ export default function BlogComponent() {
                   <Select
                     fullWidth
                     label="Category"
-                    value={updateModal ? selectCategory : selectCategory.category_name}
+                    value={
+                      updateModal
+                        ? selectCategory
+                        : selectCategory.category_name
+                    }
                     onChange={(e) => setSelectCategory(e.target.value)}
                   >
                     {categorylist != undefined
@@ -309,7 +313,7 @@ export default function BlogComponent() {
                   />
                 ) : null}
                 <DialogActions>
-                <hr />
+                  <hr />
                   {!updateModal ? (
                     <Button
                       variant="contained"
@@ -345,16 +349,16 @@ export default function BlogComponent() {
               >
                 <TableHead style={{ bachgroundcolor: "red" }}>
                   <TableRow>
-                    <StyledTableCell align="center">S.No</StyledTableCell>
-                    <StyledTableCell align="center">Title</StyledTableCell>
-                    <StyledTableCell align="center">subTitle</StyledTableCell>
-                    <StyledTableCell align="center">Discretion</StyledTableCell>
-                    <StyledTableCell align="center">Category</StyledTableCell>
+                    <StyledTableCell >S.No</StyledTableCell>
+                    <StyledTableCell>Title</StyledTableCell>
+                    <StyledTableCell>Sub title</StyledTableCell>
+                    <StyledTableCell>Description</StyledTableCell>
+                    <StyledTableCell>Category</StyledTableCell>
                     <StyledTableCell>Image</StyledTableCell>
                     {/* <TableCell align="center">Aouther</TableCell> */}
-                    <StyledTableCell align="center">Date/Time</StyledTableCell>
-                    <StyledTableCell align="center">Edit</StyledTableCell>
-                    <StyledTableCell align="center">Delete</StyledTableCell>
+                    <StyledTableCell>Date/Time</StyledTableCell>
+                    <StyledTableCell>Edit</StyledTableCell>
+                    <StyledTableCell>Delete</StyledTableCell>
                   </TableRow>
                 </TableHead>
                 {blogPostData != undefined
@@ -362,46 +366,56 @@ export default function BlogComponent() {
                       return (
                         <TableBody key={index}>
                           <StyledTableRow>
-                            <StyledTableCell align="center">
+                            <StyledTableCell >
                               {++sno}
                             </StyledTableCell>
-                            <StyledTableCell align="center">
+                            <StyledTableCell style={{fontWeight: "bold",fontSize:16}}>
                               {ele.blog_title}
                             </StyledTableCell>
-                            <StyledTableCell align="center">
-                            <ReactReadMoreReadLess 
-                             
-                              charLimit={100}
-                              readMoreText={"Read more ▼"}
-                              readLessText={"Read less ▲"}
-                            >
-                              {ele.blog_subTitle}
+                            <StyledTableCell >
+                              <ReactReadMoreReadLess
+                                charLimit={100}
+                                readMoreText={"Read more ▼"}
+                                readLessText={"Read less ▲"}
+                              >
+                                {ele.blog_subTitle}
                               </ReactReadMoreReadLess>
                             </StyledTableCell>
-                            <StyledTableCell align="center">
-                            <ReactReadMoreReadLess
-                            
-                              charLimit={100}
-                              readMoreText={"Read more ▼"}
-                              readLessText={"Read less ▲"}
-                            >
+                            <StyledTableCell >
+                              <ReactReadMoreReadLess
+                                charLimit={100}
+                                readMoreText={"Read more ▼"}
+                                readLessText={"Read less ▲"}
+                              >
                                 {ele.blog_dsc}
-                            </ReactReadMoreReadLess>
-                              </StyledTableCell>
-                            <StyledTableCell align="center">
+                              </ReactReadMoreReadLess>
+                            </StyledTableCell>
+                            <StyledTableCell >
                               {ele.category_name}
                             </StyledTableCell>
 
                             {/* <StyledTableCell align="center">{ele.blog_image}</StyledTableCell> */}
-                            <TableCell align="center">
-                            <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" className={classes.large} />
+                            <TableCell >
+                              {/* <Card>
+                                <CardMedia
+                                  component="img"
+                                  height="40"
+                                  image="logo512.png"
+                                  alt="green iguana"
+                                />
+                              </Card> */}
+                              <Avatar
+                                alt="Remy Sharp"
+                                src="logo.jpg.png"
+                                className={classes.large}
+                              />
                               {/* <img src={ele.blog_image} alt="no image" /> */}
                               {/* <img src={ele.blog_image} alt={"no image"} style={{width: 100, height: 200}} /> */}
                             </TableCell>
-                            <StyledTableCell align="center">
+                            <StyledTableCell >
                               {"Date"}
                             </StyledTableCell>
-                            <StyledTableCell align="center">
+                            <StyledTableCell >
                               <IconButton
                                 variant="contained"
                                 color="primary"
@@ -421,7 +435,7 @@ export default function BlogComponent() {
                                 />
                               </IconButton>
                             </StyledTableCell>
-                            <StyledTableCell align="center">
+                            <StyledTableCell>
                               <IconButton
                                 variant="contained"
                                 color="secondary"

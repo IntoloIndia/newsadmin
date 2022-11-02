@@ -24,26 +24,22 @@ export default function SidenavData({ handleDrawerClose }) {
   const classes = useStyles();
   const listItemData = [
     { label: "Dashboard", link: "/Dashboard", icon: <DashboardIcon /> },
+    { label: "Post", link: "/blog", icon: <BookIcon /> },
+    { label: "Category", link: "/categarylist", icon: <CategoryIcon /> },
     { label: "admins", link: "/admins", icon: <SupervisorAccountIcon /> },
     { label: "navigation", link: "/navigation", icon: <NavigationIcon /> },
+    { label: "Logout", link: "/logout", icon: <ExitToAppIcon /> },
+
     // { label: "Dashobard", link: "/", icon: <DashboardIcon /> },
-
-    { label: "Category", link: "/categarylist", icon: <CategoryIcon /> },
-
     // { label: "subCategory", link: "/subCategory", icon: <FormatListBulletedIcon /> },
-   
-
     // { label: "NewsEditer", link: "/newsediter", icon: <AssignmentIcon /> },
-    { label: "State", link: "/state", icon: <LocationCityIcon /> },
-
-    { label: "Post", link: "/blog", icon: <BookIcon /> },
+    // { label: "State", link: "/state", icon: <LocationCityIcon /> },
     // { label: "Link 1", link: "/link", icon: <PostAddIcon /> },
     // {
     //   label: "Notification",
     //   link: "/notification",
     //   icon: <NotificationsActiveIcon />,
     // },
-    { label: "Logout", link: "/logout", icon: <ExitToAppIcon /> },
   ];
   return (
     <List className={classes.navsidebar}>

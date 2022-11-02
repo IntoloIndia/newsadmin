@@ -39,6 +39,7 @@ import CloseIcon from "@material-ui/icons/Close";
 import { categoryGet } from "../../../Controller/CategoryController";
 import Multiselect from "multiselect-react-dropdown";
 import { CheckBox } from "@material-ui/icons";
+import { Alert, AlertTitle } from '@material-ui/lab';
 import {
   createnavigationCategorypost,
   navigationCategoryDelete,
@@ -64,6 +65,15 @@ const StyledTableRow = withStyles((theme) => ({
   },
 }))(TableRow);
 
+// const useStyles = makeStyles((theme) => ({
+//   root: {
+//     width: '100%',
+//     '& > * + *': {
+//       marginTop: theme.spacing(2),
+//     },
+//   },
+// }));
+
 export default function Appnav() {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
@@ -73,6 +83,7 @@ export default function Appnav() {
   const [number, setNumber] = useState("");
   const [showNavigation, setShowNavigation] = useState([]);
   const [navigation_id, setNavigation_Id] = useState("");
+  const [alertMessage, setalertMessage] = useState(false)
 
   const postCategory = async () => {
     let data = await categoryGet();
@@ -102,6 +113,7 @@ export default function Appnav() {
     // alert(JSON.stringify(navidata))
     let data = await createnavigationCategorypost(navidata);
     if (data.status === 200) {
+      // setalertMessage(true)
       alert("data create");
       setSelectCategory("");
       setNumber("");
@@ -242,7 +254,7 @@ export default function Appnav() {
                   style={{ marginBottom: 10 }}
                   size="small"
                   fullWidth
-                  label="Title"
+                  // label=""
                   value={naviUpdateModal ? number : null}
                   onChange={(e) => setNumber(e.target.value)}
                 />
@@ -271,10 +283,13 @@ export default function Appnav() {
           </Dialog>
         </Box>
       </div>
+     {alertMessage ? <Alert variant="filled" severity="success">
+        This is a success alert — check it out!
+      </Alert>:null}
       <Box style={{ marginTop: 5 }}>
         <Grid container spacing={2}>
           <Grid item xs={12} lg={6}>
-            <TableContainer component={Paper} style={{ maxHeight: 300 }}>
+            <TableContainer component={Paper} style={{ maxHeight: 800 }}>
               <Table
                 className={classes.table}
                 stickyHeader
@@ -285,12 +300,12 @@ export default function Appnav() {
                   <TableRow>
                     <StyledTableCell align="center">S.No</StyledTableCell>
                     <StyledTableCell align="center">
-                      category name
+                      Category name
                     </StyledTableCell>
                     <StyledTableCell align="center">
-                      category slug
+                      Category slug
                     </StyledTableCell>
-                    <StyledTableCell align="center">number</StyledTableCell>
+                    <StyledTableCell align="center">Number</StyledTableCell>
                     <StyledTableCell align="center">Action</StyledTableCell>
                   </TableRow>
                 </TableHead>

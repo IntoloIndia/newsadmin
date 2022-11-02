@@ -12,6 +12,7 @@ import {
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
+import { useEffect } from "react";
 const Login = ({ handleChange,setLoginStatus }) => {
   const history = useHistory();
 
@@ -27,10 +28,12 @@ const Login = ({ handleChange,setLoginStatus }) => {
   const [password, setPassword] = useState("");
 
   const userSubmit = () => {
-    // const userData = {
-    //   userName: userName,
-    //   password: password,
-    // };
+
+   
+    const userData = {
+      userName: userName,
+      password: password,
+    };
     if(userName ==='admin' && password==='123456'){
     alert('user login');
     setUserName('');
@@ -42,14 +45,21 @@ const Login = ({ handleChange,setLoginStatus }) => {
     }
   };
 
+  // if(localStorage.getItem("user-info")){
+  //   history.push("/Dashboard");
+  // }
+  // useEffect(()=>{
+
+  // },[])
+
   const userinput=(event)=>{
-   let name = event.target.value;
-    setUserName(name)
+   let user_name = event.target.value;
+    setUserName(user_name)
   }
 
   const userPassword=(event)=>{
-    let password = event.target.value;
-    setPassword(password)
+    let user_password = event.target.value;
+    setPassword(user_password)
   }
 
   return (
