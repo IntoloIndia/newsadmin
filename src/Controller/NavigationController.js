@@ -1,8 +1,8 @@
 
 
-const categoryGet = async ()=>{
+const navigationGetcategory = async ()=>{
     try {
-        const res = await fetch(`${process.env.REACT_APP_API_URL}category`, {
+        const res = await fetch(`${process.env.REACT_APP_API_URL}navigation`, {
           method: 'get',
           headers: {
             'content-Type': 'application/json',
@@ -15,14 +15,14 @@ const categoryGet = async ()=>{
       }
  };
 
-const createCategorypost = async (categoryData)=>{
+const createnavigationCategorypost = async (navidata)=>{
     try {
-        const res = await fetch(`${process.env.REACT_APP_API_URL}category`, {
+        const res = await fetch(`${process.env.REACT_APP_API_URL}navigation`, {
           method: 'post',
           headers: {
             'content-Type': 'application/json',
           },
-          body: JSON.stringify(categoryData),
+          body: JSON.stringify(navidata),
         });
         const data = await res.json();
         return data;
@@ -31,10 +31,10 @@ const createCategorypost = async (categoryData)=>{
       }
 };
 
-const categoryDelete = async id => {
-    // console.log('object', id);
+const navigationCategoryDelete = async navigation_id => {
+    // console.log('object', navigation_id);
     try {
-      const res = await fetch(`${process.env.REACT_APP_API_URL}category/`+ id, {
+      const res = await fetch(`${process.env.REACT_APP_API_URL}navigation/`+ navigation_id, {
         method: 'delete',
         headers: {
           'content-Type': 'application/json',
@@ -47,14 +47,14 @@ const categoryDelete = async id => {
     }
   };
 
-  const updateCategory = async (category_id,updaetData) => {
+  const navigationupdateCategory = async (navigation_id,naviupdatedata) => {
     try {
-      const res = await fetch(`${process.env.REACT_APP_API_URL}category/`+ category_id, {
+      const res = await fetch(`${process.env.REACT_APP_API_URL}navigation/`+ navigation_id, {
         method: 'put',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(updaetData),
+        body: JSON.stringify(naviupdatedata),
       });
       const data = await res.json();
       return data;
@@ -64,7 +64,6 @@ const categoryDelete = async id => {
   };
 
 export {
-    categoryGet,createCategorypost,categoryDelete, updateCategory
+    navigationGetcategory,createnavigationCategorypost,navigationCategoryDelete, navigationupdateCategory
 }
 
-//categoryUpdate
