@@ -20,6 +20,7 @@ import CategoryIcon from '@material-ui/icons/Category';
 import LocationCityIcon from '@material-ui/icons/LocationCity';
 import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
 import NavigationIcon from '@material-ui/icons/Navigation';
+import FileCopySharpIcon from '@material-ui/icons/FileCopySharp';
 export default function SidenavData({ handleDrawerClose }) {
   const classes = useStyles();
   const listItemData = [
@@ -28,7 +29,9 @@ export default function SidenavData({ handleDrawerClose }) {
     { label: "Category", link: "/categarylist", icon: <CategoryIcon /> },
     { label: "admins", link: "/admins", icon: <SupervisorAccountIcon /> },
     { label: "navigation", link: "/navigation", icon: <NavigationIcon /> },
+    { label: "uploadpdffile", link: "/uploadpdffile", icon: <FileCopySharpIcon /> },
     { label: "Logout", link: "/logout", icon: <ExitToAppIcon /> },
+
 
     // { label: "Dashobard", link: "/", icon: <DashboardIcon /> },
     // { label: "subCategory", link: "/subCategory", icon: <FormatListBulletedIcon /> },

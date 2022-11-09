@@ -26,6 +26,7 @@ import ReactReadMoreReadLess from "react-read-more-read-less";
 import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
 import { blogGet } from "../../../Controller/BlogController";
+import { useHistory } from "react-router-dom";
 
 // import ListSection from "./ListSection";
 
@@ -48,25 +49,35 @@ const StyledTableRow = withStyles((theme) => ({
 }))(TableRow);
 
 
-export default function Dashboard() {
+export default function Dashboard({setLoginStatus}) {
+  const history =useHistory();
   const classes = useStyles();
   const [fetched, setFetched] = useState(false);
   const [posts, setPosts] = useState([]);
   const [authors, setauthors] = useState([]);
   const [blogPostData, setBlogPostData] = useState([]);
 
+  // useEffect(()=>{
+  //     const auth = localStorage.getItem("user-info");
+  //     if(auth){
+  //       history.push("/Dashboard"); 
+  //       // setLoginStatus(true)
+  //     }
+  //   },[])
 
   const showblog = async () => {
     let data = await blogGet();
     if (data.status === 200) {
+      // setLoginStatus(false);
       // console.log(blogdata)
       setBlogPostData(data.data);
     }
   };
-useEffect(()=>{
-  showblog();
-},[])
-let sno=0;
+  useEffect(()=>{
+    showblog();
+  },[])
+  // setLoginStatus(false)
+  let sno=0;
   const DisplayData = [
     {
       label: "Post",
@@ -300,7 +311,7 @@ let sno=0;
                                 className={classes.large}
                               />
                               {/* <img src={ele.blog_image} alt="no image" /> */}
-                              {/* <img src={ele.blog_image} alt={"no image"} style={{width: 100, height: 200}} /> */}
+                              {/* <img src="logo.jpg.png" alt={"no image"} style={{width: 100, height: 200}} /> */}
                             </TableCell>
                             <StyledTableCell >
                               {"Date"}

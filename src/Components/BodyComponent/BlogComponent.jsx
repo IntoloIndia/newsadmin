@@ -20,6 +20,8 @@ import {
   MenuItem,
   Card,
   CardMedia,
+  FormControlLabel,
+  Checkbox,
 } from "@material-ui/core";
 import { useStyles } from "./BodyStyles";
 import { PageHeader } from "../Common/CommonComponent";
@@ -70,7 +72,7 @@ const StyledTableRow = withStyles((theme) => ({
 //   },
 // }));
 
-export default function BlogComponent() {
+export default function BlogComponent({setLoginStatus}) {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const [updateModal, setUpdateModal] = useState(false);
@@ -88,6 +90,8 @@ export default function BlogComponent() {
 
   const [blogPostData, setBlogPostData] = useState([]);
   const [blogPost_id, setBlogPost_Id] = useState("");
+  const [postCheckdata, setPostCheckdata] = useState(false)
+  // alert(postCheckdata)
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -116,6 +120,7 @@ export default function BlogComponent() {
   useEffect(() => {
     showblog();
     postCategory();
+    // setLoginStatus(false)
   }, []);
 
   const update = (id, title, subTitle, dsc, scid, bimage) => {
@@ -149,21 +154,25 @@ export default function BlogComponent() {
     data.set("blog_subTitle", blog_Sub_Title);
     data.set("blog_dsc", blog_Discription);
     data.set("category_id", selectCategory);
-    // alert(JSON.stringify(data))
+    data.set("top_news", postCheckdata);
+    // console.log(JSON.stringify(data))
     fetch(`${process.env.REACT_APP_API_URL}blogs`, {
       method: "post",
-      body: data,
-    })
-      .then((result) => {
-        console.log(result);
-        alert("data save & file sent sucessfully");
-        showblog();
-      })
-      .then((error) => {
-        console.log("file not upload", error);
-      });
-    setOpen(false);
-  };
+            headers:{
+                "Accept":"application/json",
+                "Cantent-Type":"application/json"
+            },
+            body: data,
+            }).then((result) => {
+              result.json().then((res) => {
+              console.log("res",res)
+              alert("save data")
+              showblog();
+
+            });
+        })
+          setOpen(false);
+    }
 
   const blogPostUpdate = async () => {
     const data = new FormData();
@@ -175,18 +184,20 @@ export default function BlogComponent() {
 
     fetch(`${process.env.REACT_APP_API_URL}blogs/` + blogPost_id, {
       method: "put",
-      body: data,
-    })
-      .then((result) => {
-        console.log(result);
-        alert("post update");
-      })
-      .then((error) => {
-        console.log("file not upload", error);
-        showblog();
-      });
-    setOpen(false);
-  };
+            headers:{
+                "Accept":"application/json",
+                "Cantent-Type":"application/json"
+            },
+            body: data,
+            }).then((result) => {
+              result.json().then((res) => {
+              console.log("res",res)
+              alert("update data")
+            showblog();
+            });
+        })
+          setOpen(false);
+    }
 
   var sno = 0;
   return (
@@ -265,7 +276,7 @@ export default function BlogComponent() {
                   size="small"
                   fullWidth
                   variant="outlined"
-                  // label="Category"
+                // label="Category"
                 >
                   <InputLabel id="demo-simple-select-label">
                     Category
@@ -282,13 +293,20 @@ export default function BlogComponent() {
                   >
                     {categorylist != undefined
                       ? categorylist.map((ele, index) => (
-                          <MenuItem key={index} value={ele._id}>
-                            {ele.category_name}
-                          </MenuItem>
-                        ))
+                        <MenuItem key={index} value={ele._id}>
+                          {ele.category_name}
+                        </MenuItem>
+                      ))
                       : null}
                   </Select>
                 </FormControl>
+                <FormControlLabel
+                  control={<Checkbox checked={postCheckdata}
+                    onChange={(e) => setPostCheckdata(e.target.checked)}
+                    name="postCheckdata" />}
+                  label="Top news"
+                  style={{ marginBottom: 10 }}
+                />
 
                 <TextField
                   type="file"
@@ -309,7 +327,7 @@ export default function BlogComponent() {
                     fullWidth
                     name="blog_image"
                     value={updateModal ? post_image : null}
-                    // onChange={(e) => setPost_Image(e.target.files[0])}
+                  // onChange={(e) => setPost_Image(e.target.files[0])}
                   />
                 ) : null}
                 <DialogActions>
@@ -355,6 +373,8 @@ export default function BlogComponent() {
                     <StyledTableCell>Description</StyledTableCell>
                     <StyledTableCell>Category</StyledTableCell>
                     <StyledTableCell>Image</StyledTableCell>
+                    {/* <StyledTableCell>checked</StyledTableCell> */}
+
                     {/* <TableCell align="center">Aouther</TableCell> */}
                     <StyledTableCell>Date/Time</StyledTableCell>
                     <StyledTableCell>Edit</StyledTableCell>
@@ -363,40 +383,41 @@ export default function BlogComponent() {
                 </TableHead>
                 {blogPostData != undefined
                   ? blogPostData.map((ele, index) => {
-                      return (
-                        <TableBody key={index}>
-                          <StyledTableRow>
-                            <StyledTableCell >
-                              {++sno}
-                            </StyledTableCell>
-                            <StyledTableCell style={{fontWeight: "bold",fontSize:16}}>
-                              {ele.blog_title}
-                            </StyledTableCell>
-                            <StyledTableCell >
-                              <ReactReadMoreReadLess
-                                charLimit={100}
-                                readMoreText={"Read more ▼"}
-                                readLessText={"Read less ▲"}
-                              >
-                                {ele.blog_subTitle}
-                              </ReactReadMoreReadLess>
-                            </StyledTableCell>
-                            <StyledTableCell >
-                              <ReactReadMoreReadLess
-                                charLimit={100}
-                                readMoreText={"Read more ▼"}
-                                readLessText={"Read less ▲"}
-                              >
-                                {ele.blog_dsc}
-                              </ReactReadMoreReadLess>
-                            </StyledTableCell>
-                            <StyledTableCell >
-                              {ele.category_name}
-                            </StyledTableCell>
+                    return (
+                      <TableBody key={index}>
+                        <StyledTableRow>
+                          <StyledTableCell >
+                            {++sno}
+                          </StyledTableCell>
+                          <StyledTableCell style={{ fontWeight: "bold", fontSize: 16 }}>
+                            {ele.blog_title}
+                          </StyledTableCell>
+                          <StyledTableCell >
+                            <ReactReadMoreReadLess
+                              charLimit={100}
+                              readMoreText={"Read more ▼"}
+                              readLessText={"Read less ▲"}
+                            >
+                              {ele.blog_subTitle}
+                            </ReactReadMoreReadLess>
+                          </StyledTableCell>
+                          <StyledTableCell >
+                            <ReactReadMoreReadLess
+                              charLimit={100}
+                              readMoreText={"Read more ▼"}
+                              readLessText={"Read less ▲"}
+                            >
+                              {ele.blog_dsc}
+                            </ReactReadMoreReadLess>
+                          </StyledTableCell>
+                          <StyledTableCell >
+                            {ele.category_name}
+                          </StyledTableCell>
 
-                            {/* <StyledTableCell align="center">{ele.blog_image}</StyledTableCell> */}
-                            <TableCell >
-                              {/* <Card>
+
+                          {/* <StyledTableCell align="center">{ele.blog_image}</StyledTableCell> */}
+                          <TableCell >
+                            {/* <Card>
                                 <CardMedia
                                   component="img"
                                   height="40"
@@ -404,52 +425,57 @@ export default function BlogComponent() {
                                   alt="green iguana"
                                 />
                               </Card> */}
-                              <Avatar
-                                alt="Remy Sharp"
-                                src="logo.jpg.png"
-                                className={classes.large}
+                            {/* <img src={require(`${ele.blog_image}`)}
+                               /> */}
+                            <Avatar
+                              alt="Remy Sharp"
+                              src={ele.blog_image}
+                              className={classes.large}
+                            />
+                            {/* <img src={ele.blog_image} alt="no image" /> */}
+                            {/* <img src={ele.blog_image} alt={"no image"} style={{width: 100, height: 200}} /> */}
+                          </TableCell>
+                          {/* <StyledTableCell >
+                            {"ele.top_news"}
+                          </StyledTableCell> */}
+                          <StyledTableCell >
+                            {"Date"}
+                          </StyledTableCell>
+                          <StyledTableCell >
+                            <IconButton
+                              variant="contained"
+                              color="primary"
+                              size="small"
+                            >
+                              <EditIcon
+                                onClick={() => {
+                                  update(
+                                    ele._id,
+                                    ele.blog_title,
+                                    ele.blog_subTitle,
+                                    ele.blog_dsc,
+                                    ele.category_id,
+                                    ele.blog_image
+                                  );
+                                }}
                               />
-                              {/* <img src={ele.blog_image} alt="no image" /> */}
-                              {/* <img src={ele.blog_image} alt={"no image"} style={{width: 100, height: 200}} /> */}
-                            </TableCell>
-                            <StyledTableCell >
-                              {"Date"}
-                            </StyledTableCell>
-                            <StyledTableCell >
-                              <IconButton
-                                variant="contained"
-                                color="primary"
-                                size="small"
-                              >
-                                <EditIcon
-                                  onClick={() => {
-                                    update(
-                                      ele._id,
-                                      ele.blog_title,
-                                      ele.blog_subTitle,
-                                      ele.blog_dsc,
-                                      ele.category_id,
-                                      ele.blog_image
-                                    );
-                                  }}
-                                />
-                              </IconButton>
-                            </StyledTableCell>
-                            <StyledTableCell>
-                              <IconButton
-                                variant="contained"
-                                color="secondary"
-                                size="small"
-                              >
-                                <DeleteIcon
-                                  onClick={() => deletePost(ele._id)}
-                                />
-                              </IconButton>
-                            </StyledTableCell>
-                          </StyledTableRow>
-                        </TableBody>
-                      );
-                    })
+                            </IconButton>
+                          </StyledTableCell>
+                          <StyledTableCell>
+                            <IconButton
+                              variant="contained"
+                              color="secondary"
+                              size="small"
+                            >
+                              <DeleteIcon
+                                onClick={() => deletePost(ele._id)}
+                              />
+                            </IconButton>
+                          </StyledTableCell>
+                        </StyledTableRow>
+                      </TableBody>
+                    );
+                  })
                   : null}
               </Table>
             </TableContainer>

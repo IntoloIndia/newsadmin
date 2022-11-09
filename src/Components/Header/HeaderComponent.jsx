@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Box } from "@material-ui/core";
 import Navbar from "./Navbar";
 import Sidenav from "./Sidenav";
-import { Switch, Route,Redirect} from "react-router-dom";
+import { Switch, Route,Redirect, useHistory, BrowserRouter} from "react-router-dom";
 import Dashboard from "../BodyComponent/Dashboard/Dashboard";
 import BlogComponent from "../BodyComponent/BlogComponent";
 import Link from "../BodyComponent/Link";
@@ -15,8 +15,16 @@ import StateCity from "../BodyComponent/StateCity";
 import SignInOutContainer from "../../SignInOutContainer";
 import Admin from "../BodyComponent/Admin/Admin";
 import Appnav from "../BodyComponent/navigationpage/Appnav";
-export default function HeaderComponent({setLoginStatus}) {
+import { useEffect } from "react";
+import Login from "../../Login/Login";
+import ProtectedRoute from "../ProtectedRoute";
+import useAuth from "../useAuth";
+import Uploadpdf from "../BodyComponent/Uploadpdf";
+
+export default function HeaderComponent({setLoginStatus,dataFromChild}) {
   const classes = useStyles();
+  const history = useHistory();
+  const [isAuth, login, logout] = useAuth(false)
 
   const [mobileOpen, setMobileOpen] = useState(false);
   const handleDrawerOpen = () => {
@@ -25,28 +33,52 @@ export default function HeaderComponent({setLoginStatus}) {
   const handleDrawerClose = () => {
     setMobileOpen(false);
   };
+  //  console.log(dataFromChild)
+
+  // useEffect(()=>{
+  //   const auth = localStorage.getItem("user-info");
+  //   if(auth){
+  //     history.push("/Dashboard"); 
+  //   }
+  // },[])
+  
+
   return (
     <div>
+
+     {/* {
+      isAuth ?
+     <Switch>
+          <Route exact path='/' render={() => <Login />} />
+      </Switch>:null
+     }  */}
+
+     { <>
       <Navbar handleDrawerOpen={handleDrawerOpen} />
       <Sidenav
         mobileOpen={mobileOpen}
         handleDrawerOpen={handleDrawerOpen}
         handleDrawerClose={handleDrawerClose}
-      />
+        /> 
+
+      </>
+  }
       {/* // registerian our routes  */}
       <Box className={classes.wrapper}>
-        <Switch>
-         <Route exact path='/' render={() => <Dashboard />} />
-          <Route exact path="/SignInOutContainer" render={() => <SignInOutContainer />} />
-          <Route exact path="/Dashboard" render={() => <Dashboard />} />
-          <Route exact path="/state" render={() => <StateCity />} />
-          <Route exact path="/categarylist" render={() => <Categarylist />} />
-          <Route exact path="/blog" render={() => <BlogComponent />} />
-          <Route exact path="/admins" render={() => <Admin />} />
-          <Route exact path="/navigation" render={() => <Appnav />} />
-          <Route exact path="/logout" render={() => <Logout setLoginStatus={setLoginStatus} />} />
-          <Route path="/" render={() => <Redirect to="/" />} />
-          {/* <Redirect to="/SignInOutContainer"/> */}
+      <Switch>
+          <Route exact path='/login' render={() => <Login />} />
+
+         {/* <Route exact path="/Dashboard" component={<Dashboard />} /> */}
+           <ProtectedRoute exact path="/Dashboard" component={()=><Dashboard />}/>
+          {/* <Route exact path="/state" render={() => <StateCity />} /> */}
+          <ProtectedRoute exact path="/categarylist" component={() => <Categarylist />} />
+          <ProtectedRoute exact path="/blog" component={() => <BlogComponent />} />
+          <ProtectedRoute exact path="/admins" component={() => <Admin />} />
+          <ProtectedRoute exact path="/navigation" component={() => <Appnav />} />
+          <ProtectedRoute exact path="/uploadpdffile" component={() => <Uploadpdf />} />
+          <ProtectedRoute exact path="/logout" component={() => <Logout  />} />
+          {/* <ProtectedRoute path="/" component={() => <Redirect to="/" />} />  */}
+         <Redirect to="/Dashboard"/>
         </Switch>
       </Box>
     </div>

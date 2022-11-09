@@ -45,15 +45,16 @@ const SignInOutContainer = ({ setLoginStatus }) => {
         onChange={handleChange}
         aria-label="disabled tabs example"
       >
-        <Tab label="Sign In" />
-        <Tab label="Sign Up" />
+        {/* <Tab label="Sign In" /> */}
+        {/* <Tab label="Sign Up" /> */}
       </Tabs>
       <TabPanel value={value} index={0}>
+        {/* <Login /> */}
         <Login handleChange={handleChange} setLoginStatus={setLoginStatus} />
       </TabPanel>
-      <TabPanel value={value} index={1}>
+      {/* <TabPanel value={value} index={1}>
         <Signup />
-      </TabPanel>
+      </TabPanel> */}
     </Paper>
   );
 };
