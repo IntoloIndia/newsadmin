@@ -57,10 +57,11 @@ const Login = ({ handleChange, setLoginStatus }) => {
     });
        result = await result.json();
         // console.log(result)
-        if(result.user){
+        if(result.status===200){
+          alert(`welcome user name ${result.name}`)
           localStorage.setItem("user-info",true);
-          window.location.pathname = "/Dashboard";
-          //  history.push("/Dashboard");
+          // window.location.pathname = "/Dashboard";
+           history.push("/Dashboard");
           //  setLoginStatus(true)
           
         }else{

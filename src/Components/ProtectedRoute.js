@@ -1,7 +1,5 @@
 import React from "react";
 import { Redirect, Route } from "react-router-dom";
-import App from "../App";
-import HeaderComponent from "./Header/HeaderComponent";
 
 // function ProtectedRoute(props) {
   function ProtectedRoute({ component: Component, ...restOfProps }) {

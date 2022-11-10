@@ -10,16 +10,12 @@ import {
   TableCell,
   TableRow,
   TableHead,
-  Avatar,
   IconButton,
   TextField,
-  Typography,
   Select,
   InputLabel,
   FormControl,
   MenuItem,
-  Card,
-  CardMedia,
   FormControlLabel,
   Checkbox,
 } from "@material-ui/core";
@@ -31,19 +27,16 @@ import EditIcon from "@material-ui/icons/Edit";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import { withStyles } from "@material-ui/core/styles";
 import CloseIcon from "@material-ui/icons/Close";
 import {
   blogGet,
   blogPostDelete,
-  blogPostUpdate,
 } from "../../Controller/BlogController";
 import { categoryGet } from "../../Controller/CategoryController";
 import ReactReadMoreReadLess from "react-read-more-read-less";
 // import {photo} from '../../../public/logo.jpg.png'
-import { makeStyles } from "@material-ui/core/styles";
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
@@ -72,7 +65,7 @@ const StyledTableRow = withStyles((theme) => ({
 //   },
 // }));
 
-export default function BlogComponent({setLoginStatus}) {
+export default function BlogComponent() {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const [updateModal, setUpdateModal] = useState(false);
@@ -123,17 +116,19 @@ export default function BlogComponent({setLoginStatus}) {
     // setLoginStatus(false)
   }, []);
 
-  const update = (id, title, subTitle, dsc, scid, bimage) => {
+  const update = (id, title, subTitle, dsc, scid, bimage,posttik) => {
     setBlogPost_Id(id);
     setBlog_Title(title);
     setBlog_Sub_Title(subTitle);
     setBlog_Discription(dsc);
     setSelectCategory(scid);
     setPost_Image(bimage);
+    setPostCheckdata(posttik)
+    // alert(posttik)
     setUpdateModal(true);
     setOpen(true);
+    // alert(postCheckdata)
   };
-
   // console.log(blogPost_id)
 
   const deletePost = async (id) => {
@@ -154,7 +149,7 @@ export default function BlogComponent({setLoginStatus}) {
     data.set("blog_subTitle", blog_Sub_Title);
     data.set("blog_dsc", blog_Discription);
     data.set("category_id", selectCategory);
-    data.set("top_news", postCheckdata);
+    data.set("show_on_top", postCheckdata);
     // console.log(JSON.stringify(data))
     fetch(`${process.env.REACT_APP_API_URL}blogs`, {
       method: "post",
@@ -181,7 +176,7 @@ export default function BlogComponent({setLoginStatus}) {
     data.set("blog_subTitle", blog_Sub_Title);
     data.set("blog_dsc", blog_Discription);
     data.set("category_id", selectCategory);
-
+    data.set("show_on_top",postCheckdata)
     fetch(`${process.env.REACT_APP_API_URL}blogs/` + blogPost_id, {
       method: "put",
             headers:{
@@ -301,7 +296,8 @@ export default function BlogComponent({setLoginStatus}) {
                   </Select>
                 </FormControl>
                 <FormControlLabel
-                  control={<Checkbox checked={postCheckdata}
+                  control={<Checkbox  checked={postCheckdata}
+                  value={updateModal ? postCheckdata :postCheckdata.show_on_top}
                     onChange={(e) => setPostCheckdata(e.target.checked)}
                     name="postCheckdata" />}
                   label="Top news"
@@ -372,7 +368,7 @@ export default function BlogComponent({setLoginStatus}) {
                     <StyledTableCell>Sub title</StyledTableCell>
                     <StyledTableCell>Description</StyledTableCell>
                     <StyledTableCell>Category</StyledTableCell>
-                    <StyledTableCell>Image</StyledTableCell>
+                    {/* <StyledTableCell>Image</StyledTableCell> */}
                     {/* <StyledTableCell>checked</StyledTableCell> */}
 
                     {/* <TableCell align="center">Aouther</TableCell> */}
@@ -416,7 +412,7 @@ export default function BlogComponent({setLoginStatus}) {
 
 
                           {/* <StyledTableCell align="center">{ele.blog_image}</StyledTableCell> */}
-                          <TableCell >
+                          {/* <TableCell > */}
                             {/* <Card>
                                 <CardMedia
                                   component="img"
@@ -427,19 +423,19 @@ export default function BlogComponent({setLoginStatus}) {
                               </Card> */}
                             {/* <img src={require(`${ele.blog_image}`)}
                                /> */}
-                            <Avatar
+                            {/* <Avatar
                               alt="Remy Sharp"
                               src={ele.blog_image}
                               className={classes.large}
-                            />
+                            /> */}
                             {/* <img src={ele.blog_image} alt="no image" /> */}
                             {/* <img src={ele.blog_image} alt={"no image"} style={{width: 100, height: 200}} /> */}
-                          </TableCell>
+                          {/* </TableCell> */}
                           {/* <StyledTableCell >
                             {"ele.top_news"}
                           </StyledTableCell> */}
                           <StyledTableCell >
-                            {"Date"}
+                            {ele.publish_Date}
                           </StyledTableCell>
                           <StyledTableCell >
                             <IconButton
@@ -455,7 +451,8 @@ export default function BlogComponent({setLoginStatus}) {
                                     ele.blog_subTitle,
                                     ele.blog_dsc,
                                     ele.category_id,
-                                    ele.blog_image
+                                    ele.blog_image,
+                                    ele.show_on_top
                                   );
                                 }}
                               />

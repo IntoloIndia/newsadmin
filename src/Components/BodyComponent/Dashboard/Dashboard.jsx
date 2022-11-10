@@ -78,87 +78,87 @@ export default function Dashboard({setLoginStatus}) {
   },[])
   // setLoginStatus(false)
   let sno=0;
-  const DisplayData = [
-    {
-      label: "Post",
-      value: randomValueGenerator({ digit: 1000 }),
-      // icon: <ArrowDropUpIcon />,
-      iconLabel: "4%",
-    },
-    {
-      label: "Pages",
-      value: randomValueGenerator({ digit: 100 }),
-      // icon: <ArrowDropUpIcon />,
-      iconLabel: "9%",
-    },
-    {
-      label: "New Visitor",
-      value: randomValueGenerator({ digit: 100 }),
-      // icon: <ArrowDropDownIcon />,
-      iconLabel: "23%",
-    },
-    {
-      label: "Total visitor",
-      value: randomValueGenerator({ digit: 1000 }),
-      // icon: <ArrowDropDownIcon />,
-      iconLabel: "30%",
-    },
-  ];
+  // const DisplayData = [
+  //   {
+  //     label: "Post",
+  //     value: randomValueGenerator({ digit: 1000 }),
+  //     // icon: <ArrowDropUpIcon />,
+  //     iconLabel: "4%",
+  //   },
+  //   {
+  //     label: "Pages",
+  //     value: randomValueGenerator({ digit: 100 }),
+  //     // icon: <ArrowDropUpIcon />,
+  //     iconLabel: "9%",
+  //   },
+  //   {
+  //     label: "New Visitor",
+  //     value: randomValueGenerator({ digit: 100 }),
+  //     // icon: <ArrowDropDownIcon />,
+  //     iconLabel: "23%",
+  //   },
+  //   {
+  //     label: "Total visitor",
+  //     value: randomValueGenerator({ digit: 1000 }),
+  //     // icon: <ArrowDropDownIcon />,
+  //     iconLabel: "30%",
+  //   },
+  // ];
 
-  const GraphCardData = [
-    {
-      id: "Post",
-      data: fakeArrayDataGenerator({ count: 9, digit: 100 }),
-      brColor: blue[500],
-      bgColor: blue[50],
-    },
-    {
-      id: "Pages",
-      data: fakeArrayDataGenerator({ count: 9, digit: 100 }),
-      brColor: indigo[500],
-      bgColor: indigo[50],
-    },
-    {
-      id: "New Visitor",
-      data: fakeArrayDataGenerator({ count: 9, digit: 100 }),
-      brColor: lightGreen[500],
-      bgColor: lightGreen[50],
-    },
-    {
-      id: "Total visitor",
-      data: fakeArrayDataGenerator({ count: 9, digit: 100 }),
-      brColor: amber[500],
-      bgColor: amber[50],
-    },
-  ];
+  // const GraphCardData = [
+  //   {
+  //     id: "Post",
+  //     data: fakeArrayDataGenerator({ count: 9, digit: 100 }),
+  //     brColor: blue[500],
+  //     bgColor: blue[50],
+  //   },
+  //   {
+  //     id: "Pages",
+  //     data: fakeArrayDataGenerator({ count: 9, digit: 100 }),
+  //     brColor: indigo[500],
+  //     bgColor: indigo[50],
+  //   },
+  //   {
+  //     id: "New Visitor",
+  //     data: fakeArrayDataGenerator({ count: 9, digit: 100 }),
+  //     brColor: lightGreen[500],
+  //     bgColor: lightGreen[50],
+  //   },
+  //   {
+  //     id: "Total visitor",
+  //     data: fakeArrayDataGenerator({ count: 9, digit: 100 }),
+  //     brColor: amber[500],
+  //     bgColor: amber[50],
+  //   },
+  // ];
 
-  useEffect(() => {
-    if (!fetched) {
-      GraphCardData.map((item, i) =>
-        DisplayCardGraph({
-          id: item.id,
-          data: item.data,
-          brColor: item.brColor,
-          bgColor: item.bgColor,
-        })
-      );
-      setFetched(true);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [fetched]);
+  // useEffect(() => {
+  //   if (!fetched) {
+  //     GraphCardData.map((item, i) =>
+  //       DisplayCardGraph({
+  //         id: item.id,
+  //         data: item.data,
+  //         brColor: item.brColor,
+  //         bgColor: item.bgColor,
+  //       })
+  //     );
+  //     setFetched(true);
+  //   }
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [fetched]);
 
-  // for api calling
-  useEffect(() => {
-    if (!fetched) {
-      GetPost({ limit: 5 }).then(({ data: { data } }) => {
-        setPosts(data);
-      });
-      GetUser({ limit: 5 }).then(({ data: { data } }) => {
-        setauthors(data);
-      });
-      setFetched(true);
-    }
-  }, [fetched]);
+  // // for api calling
+  // useEffect(() => {
+  //   if (!fetched) {
+  //     GetPost({ limit: 5 }).then(({ data: { data } }) => {
+  //       setPosts(data);
+  //     });
+  //     GetUser({ limit: 5 }).then(({ data: { data } }) => {
+  //       setauthors(data);
+  //     });
+  //     setFetched(true);
+  //   }
+  // }, [fetched]);
 
   return (
     <Box>
@@ -167,7 +167,7 @@ export default function Dashboard({setLoginStatus}) {
       section graph
       section posts */}
 
-      <PageHeader label="Dashboard" />
+      {/* <PageHeader label="Dashboard" /> */}
       {/* <Grid container spacing={2}>
         <Grid item xs={12} md={6} lg={3}>
           <Card>
@@ -202,7 +202,7 @@ export default function Dashboard({setLoginStatus}) {
           </Card>
         </Grid>
       </Grid> */}
-
+{/* 
       <Grid container spacing={1}>
         {DisplayData.map((item, i) => (
           <Grid item xs={6} sm={3} key={i}>
@@ -240,10 +240,10 @@ export default function Dashboard({setLoginStatus}) {
             </Card>
           </Grid>
         ))}
-      </Grid>
+      </Grid> */}
       <Grid container style={{marginTop:20}}>
           <Grid item xs={12}>
-            <TableContainer component={Paper} style={{ maxHeight: 450 }}>
+            <TableContainer component={Paper} style={{ maxHeight: 640 }}>
               <Table
                 className={classes.table}
                 stickyHeader
@@ -254,12 +254,12 @@ export default function Dashboard({setLoginStatus}) {
                     <StyledTableCell >S.No</StyledTableCell>
                     <StyledTableCell >Title</StyledTableCell>
                     <StyledTableCell >Sub title</StyledTableCell>
-                    <StyledTableCell >Description</StyledTableCell>
                     <StyledTableCell >Category</StyledTableCell>
-                    <StyledTableCell>Image</StyledTableCell>
+                    <StyledTableCell >Description</StyledTableCell>
+                    {/* <StyledTableCell>Image</StyledTableCell> */}
                     {/* <TableCell align="center">Aouther</TableCell> */}
-                    <StyledTableCell>Date/Time</StyledTableCell>
-                    <StyledTableCell> Active </StyledTableCell>
+                    {/* <StyledTableCell>Date/Time</StyledTableCell> */}
+                    {/* <StyledTableCell> Active </StyledTableCell> */}
                   </TableRow>
                 </TableHead>
                 {blogPostData != undefined
@@ -283,6 +283,9 @@ export default function Dashboard({setLoginStatus}) {
                               </ReactReadMoreReadLess>
                             </StyledTableCell>
                             <StyledTableCell >
+                              {ele.category_name}
+                            </StyledTableCell>
+                            <StyledTableCell >
                               <ReactReadMoreReadLess
                                 charLimit={100}
                                 readMoreText={"Read more ▼"}
@@ -291,12 +294,10 @@ export default function Dashboard({setLoginStatus}) {
                                 {ele.blog_dsc}
                               </ReactReadMoreReadLess>
                             </StyledTableCell>
-                            <StyledTableCell >
-                              {ele.category_name}
-                            </StyledTableCell>
+                           
 
                             {/* <StyledTableCell align="center">{ele.blog_image}</StyledTableCell> */}
-                            <TableCell >
+                            {/* <TableCell > */}
                               {/* <Card>
                                 <CardMedia
                                   component="img"
@@ -305,20 +306,20 @@ export default function Dashboard({setLoginStatus}) {
                                   alt="green iguana"
                                 />
                               </Card> */}
-                              <Avatar
+                              {/* <Avatar
                                 alt="Remy Sharp"
                                 src="logo.jpg.png"
                                 className={classes.large}
-                              />
+                              /> */}
                               {/* <img src={ele.blog_image} alt="no image" /> */}
                               {/* <img src="logo.jpg.png" alt={"no image"} style={{width: 100, height: 200}} /> */}
-                            </TableCell>
-                            <StyledTableCell >
+                            {/* </TableCell> */}
+                            {/* <StyledTableCell >
                               {"Date"}
-                            </StyledTableCell>
+                            </StyledTableCell> */}
                             
-                            <StyledTableCell >{"true"}</StyledTableCell>
-                          </StyledTableRow>
+                            {/* {/* <StyledTableCell >{"true"}</StyledTableCell> */}
+                          </StyledTableRow> 
                         </TableBody>
                       );
                     })

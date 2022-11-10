@@ -13,10 +13,13 @@ import SettingsIcon from "@material-ui/icons/Settings";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import image from "./unnamed.jpg";
 import { useStyles } from "../HeaderStyles";
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import { useHistory } from "react-router-dom";
 
 export default function Profile() {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
+  const history =useHistory();
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -25,10 +28,19 @@ export default function Profile() {
     setAnchorEl(null);
   };
 
+  const logoutUser = ()=>{
+    // alert("hello")
+    localStorage.clear();
+    history.push("/login")
+  }
+
   const dropDownData = [
-    { label: "settings", icon: <SettingsIcon /> },
-    { label: "Logout", icon: <ExitToAppIcon  /> },
+    // { label: "user", icon: <AccountCircleIcon /> },
+    // { label: "settings", icon: <SettingsIcon /> },
+    { label:  "Logout", icon: <ExitToAppIcon onClick={()=>logoutUser()}  /> },
   ];
+
+
 
   return (
     <Box>
@@ -48,7 +60,7 @@ export default function Profile() {
         {dropDownData.map((item, i) => (
           <MenuItem key={i} component={ListItem} onClick={handleClose}>
             <ListItemIcon>{item.icon}</ListItemIcon>
-            <ListItemText>{item.label}</ListItemText>
+            <ListItemText  onClick={()=>logoutUser()}>{item.label}</ListItemText>
           </MenuItem>
         ))}
       </Menu>

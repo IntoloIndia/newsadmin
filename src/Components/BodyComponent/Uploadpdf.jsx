@@ -65,7 +65,7 @@ const Uploadpdf = () => {
     const classes = useStyles();
     const [open, setOpen] = useState(false);
     const [pdfUpdateModal, setPdfUpdateModal] = useState(false)
-    const [selectedDate, setSelectedDate] = useState('');
+    const [selectedDate, setSelectedDate] = useState(new Date().toDateString("yyyy/mm/dd"));
     const [uploadfiles, setUploadFiles] = useState()
     const [pdfData, setPdfData] = useState([])
     const [pdfData_id, setPdfData_Id] = useState('')
@@ -87,7 +87,7 @@ const Uploadpdf = () => {
         const data = new FormData();
         data.append("filedata", uploadfiles);
         data.set("date", selectedDate);
-        await fetch(`${process.env.REACT_APP_API_URL}pdfupload`, {
+        await fetch(`${process.env.REACT_APP_API_URL}upload-pdf`, {
             method: "post",
             headers: {
                 "Accept": "application/json",
@@ -141,7 +141,7 @@ const Uploadpdf = () => {
         const data = new FormData();
         data.append("filedata", uploadfiles);
         data.set("date", selectedDate);
-        await fetch(`${process.env.REACT_APP_API_URL}pdfupload/`+pdfData_id, {
+        await fetch(`${process.env.REACT_APP_API_URL}upload-pdf/`+pdfData_id, {
             method: "put",
             headers: {
                 "Accept": "application/json",
@@ -236,12 +236,13 @@ const Uploadpdf = () => {
                                         margin="normal"
                                         id="date-picker-dialog"
                                         // label="Date picker dialog"
-                                        format="dd/MM/yyyy"  //asgdfhS
-                                        value={pdfUpdateModal ? selectedDate :selectedDate.selectedDate}
+                                        format="yyyy/MM/dd"  //asgdfhS
+                                        // value={pdfUpdateModal ? selectedDate :selectedDate.selectedDate}
+                                        value={selectedDate}
                                         onChange={handleDateChange}
-                                        KeyboardButtonProps={{
-                                            'aria-label': 'change date',
-                                        }}
+                                        // KeyboardButtonProps={{
+                                        //     'aria-label': 'change date',
+                                        // }}
                                     />
 
                                     {/* </Grid> */}
@@ -328,7 +329,7 @@ const Uploadpdf = () => {
                     </Grid>
                 </Grid>
             </Box>
-            <img src="logo192.png" alt="no image" srcset="" width="200" />
+            {/* <img src="logo192.png" alt="no image" srcset="" width="200" /> */}
         </Box>
     )
 }
