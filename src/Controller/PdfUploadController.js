@@ -2,7 +2,7 @@
 
 const getPdfUpload = async ()=>{
     try {
-        const res = await fetch(`${process.env.REACT_APP_API_URL}pdfupload`, {
+        const res = await fetch(`${process.env.REACT_APP_API_URL}upload-pdf`, {
           method: 'get',
           headers: {
             'content-Type': 'application/json',
@@ -37,7 +37,7 @@ const getPdfUpload = async ()=>{
 const pdfdataDelete = async id => {
     // alert(id)
     try {
-      const res = await fetch(`${process.env.REACT_APP_API_URL}pdfupload/`+ id, {
+      const res = await fetch(`${process.env.REACT_APP_API_URL}upload-pdf/`+ id, {
         method: 'delete',
         headers: {
           'Content-Type': 'application/json',

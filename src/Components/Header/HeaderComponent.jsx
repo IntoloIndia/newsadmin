@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Box } from "@material-ui/core";
 import Navbar from "./Navbar";
 import Sidenav from "./Sidenav";
-import { Switch, Route,Redirect, useHistory, BrowserRouter} from "react-router-dom";
+import { Switch, Route,Redirect, useHistory,} from "react-router-dom";
 import Dashboard from "../BodyComponent/Dashboard/Dashboard";
 import BlogComponent from "../BodyComponent/BlogComponent";
 import Link from "../BodyComponent/Link";
@@ -43,6 +43,13 @@ export default function HeaderComponent({setLoginStatus,dataFromChild}) {
   // },[])
   
 
+  const logoutUser = ()=>{
+    // alert("hello")
+    localStorage.clear();
+    history.push("/login")
+  }
+
+
   return (
     <div>
 
@@ -53,7 +60,8 @@ export default function HeaderComponent({setLoginStatus,dataFromChild}) {
       </Switch>:null
      }  */}
 
-     { <>
+     {!<Login />?null:
+     <>
       <Navbar handleDrawerOpen={handleDrawerOpen} />
       <Sidenav
         mobileOpen={mobileOpen}
@@ -62,7 +70,9 @@ export default function HeaderComponent({setLoginStatus,dataFromChild}) {
         /> 
 
       </>
+    
   }
+       
       {/* // registerian our routes  */}
       <Box className={classes.wrapper}>
       <Switch>
@@ -75,10 +85,11 @@ export default function HeaderComponent({setLoginStatus,dataFromChild}) {
           <ProtectedRoute exact path="/blog" component={() => <BlogComponent />} />
           <ProtectedRoute exact path="/admins" component={() => <Admin />} />
           <ProtectedRoute exact path="/navigation" component={() => <Appnav />} />
-          <ProtectedRoute exact path="/uploadpdffile" component={() => <Uploadpdf />} />
-          <ProtectedRoute exact path="/logout" component={() => <Logout  />} />
+          <ProtectedRoute exact path="/upload-pdf" component={() => <Uploadpdf />} />
+          <ProtectedRoute exact path="/logout" component={() => <Logout logoutUser={logoutUser()}
+          />} />
+          <Redirect to="/Dashboard"/>
           {/* <ProtectedRoute path="/" component={() => <Redirect to="/" />} />  */}
-         <Redirect to="/Dashboard"/>
         </Switch>
       </Box>
     </div>

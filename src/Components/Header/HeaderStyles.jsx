@@ -60,7 +60,7 @@ export const useStyles = makeStyles((theme) => ({
       color: blue["A200"],
     },
     " & div": {
-      color: blueGrey["A400"],
+      color:"white",
     },
   },
   activeNavlinks: {

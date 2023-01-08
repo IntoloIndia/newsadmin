@@ -5,7 +5,6 @@ import {
   Dialog,
   DialogActions,
   DialogContent,
-  DialogContentText,
   DialogTitle,
   FormControl,
   Grid,
@@ -20,12 +19,9 @@ import {
   TableHead,
   TableRow,
   TextField,
-  Typography,
   Table,
 } from "@material-ui/core";
-import { PageHeader } from "../../Common/CommonComponent";
 import { useStyles } from "../BodyStyles";
-import DeleteIcon from "@material-ui/icons/Delete";
 import CloseIcon from "@material-ui/icons/Close";
 import EditIcon from "@material-ui/icons/Edit";
 import {
@@ -326,7 +322,7 @@ const Admin = () => {
                               color="secondary"
                               size="small"
                             >
-                              <DeleteIcon onClick={() => deleteData(ele._id)} />
+                              {/* <DeleteIcon onClick={() => deleteData(ele._id)} /> */}
                             </IconButton>
                           </StyledTableCell>
                         </StyledTableRow>
